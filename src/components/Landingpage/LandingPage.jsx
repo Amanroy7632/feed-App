@@ -1,22 +1,32 @@
 import { useForm } from "react-hook-form";
 import Input from "../auth/commonUI/Input";
-import React, { useEffect, useRef, useState } from "react";
+import {  useRef, useState } from "react";
 import Button from "../auth/commonUI/Button";
 import Home from "./Home";
 import PostCard from "../post/PostCard";
 import { useUser } from "../../context/userContext";
 import Alert from "../customalert/Alert";
-const LandingPage = ({ currentUser }) => {
-  const [posts, setPost] = useState([]);
+const LandingPage = () => {
+  //   const [posts, setPost] = useState([]);
   const [currentUserPost, setCurrentUserPost] = useState([]);
   const [currentUserPostVisible, setCurrentUserPostVisible] = useState(false);
   const { handleSubmit, register, reset } = useForm();
   const [cpyVisible, setcpyVisible] = useState(false);
-  const { alertMessage, setAlertMessage, onClose } = useUser();
+  const {
+    alertMessage,
+    setAlertMessage,
+    onClose,
+    currentUser,
+    posts,
+    setPost,
+  } = useUser();
   const ref = useRef("");
-  function generateCurrentTime() {
-    const date = new Date();
-    return `${date.getDay()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+  function generateCurrentDate() {
+    const currentDate = new Date()
+    const day = String(currentDate.getDate()).padStart(2, '0')
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0')
+    const year = currentDate.getFullYear()
+    return `${day}/${month}/${year}`;
   }
   const generateId = (length) => {
     let code = "";
@@ -34,7 +44,7 @@ const LandingPage = ({ currentUser }) => {
   };
   const createPost = (data) => {
     if (!data.post) {
-      //   alert("Please write something..");
+      
       setAlertMessage("Please write something...");
       return;
     }
@@ -48,31 +58,32 @@ const LandingPage = ({ currentUser }) => {
       id: generateId(6),
       owner: currentUser.email,
       ownerName: currentUser.name,
-      date: generateCurrentTime(),
+      date: generateCurrentDate(),
+      isApproved:false
     };
     const localStorageData = JSON.parse(localStorage.getItem("posts")) || [];
-    const updatedPost = [...localStorageData, postInfo];
+    const updatedPost = [postInfo,...localStorageData];
     setPost(updatedPost);
     localStorage.setItem("posts", JSON.stringify(updatedPost));
     console.log(JSON.parse(localStorage.getItem("posts")));
-    // alert("Post created successfully");
     setAlertMessage("Post created successfully");
     reset();
+    setCurrentUserPost(
+        updatedPost.filter((post) => post.owner === currentUser.email)
+      );
+
   };
   const deletePost = (id) => {
     if (!currentUser.name) {
-      //   alert("Please login first..");
       setAlertMessage("Please login first");
-
       return;
     }
-    console.log(id, currentUser.email, currentUser.email);
+    // console.log(id, currentUser.email, currentUser.email);
     const newUpdatePost = posts.filter((post) => {
       return post.id !== id;
     });
     setPost(newUpdatePost);
     localStorage.setItem("posts", JSON.stringify(newUpdatePost));
-    // alert("Post deleted successfully");
     setAlertMessage("Post deleted successfully");
   };
   const viewMyPost = (e) => {
@@ -90,12 +101,12 @@ const LandingPage = ({ currentUser }) => {
     );
     setCurrentUserPostVisible(!currentUserPostVisible);
   };
-  useEffect(() => {
-    const localStoragePosts = JSON.parse(localStorage.getItem("posts"));
-    if (localStoragePosts) {
-      setPost(localStoragePosts);
-    }
-  }, []);
+//   useEffect(() => {
+//     const localStoragePosts = JSON.parse(localStorage.getItem("posts"));
+//     if (localStoragePosts) {
+//       setPost(localStoragePosts);
+//     }
+//   }, [posts.length]);
   const handleCopyClick = async (data) => {
     setcpyVisible(true);
     console.log(data);
@@ -104,7 +115,6 @@ const LandingPage = ({ currentUser }) => {
       setcpyVisible(false);
     }, 2000);
   };
-  const currentUserPosts = () => {};
   return (
     <div className="">
       <div className=" w-[80%] flex justify-center flex-col m-auto">
@@ -169,6 +179,9 @@ const LandingPage = ({ currentUser }) => {
                 ) : (
                   <div className="grid grid-cols-4 gap-5">
                     {currentUserPost.map((p, i) => {
+                        // if (p.owner!==currentUser.email) {
+                        //     return null
+                        // }
                       return (
                         <PostCard
                           key={i}

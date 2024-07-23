@@ -5,10 +5,13 @@ import Input from './commonUI/Input'
 import Button from './commonUI/Button'
 import { useUser } from '../../context/userContext'
 import Alert from '../customalert/Alert'
-const Login = ({setCurrentUser}) => {
+import {BiEnvelope} from "react-icons/bi"
+import {AiFillEyeInvisible,AiOutlineEye} from "react-icons/ai"
+const Login = () => {
     const [errorMessage,setErrorMessage] =useState('')
     const {register,handleSubmit} = useForm()
-    const {getUserData,alertMessage,setAlertMessage,onClose} =useUser()
+    const {getUserData,alertMessage,setAlertMessage,onClose,setCurrentUser} =useUser()
+    const [isPasswordVisible,setPasswordVisible] = useState(false)
     const navigate =useNavigate()
     const login = (data)=>{
       if (!data) {
@@ -30,7 +33,12 @@ const Login = ({setCurrentUser}) => {
           setCurrentUser(user[0])
           // alert(`Login Successfully \nWelcome ${user[0]?.name}`)
           setAlertMessage(`Login Successfully \nWelcome ${user[0]?.name}`)
-          navigate("/home")
+          if (user[0].role==="2") {
+            navigate("/admin-dashboard")
+          }else{
+
+            navigate("/")
+          }
         }else{
           setErrorMessage("Invalid Credentials,please try again")
           setAlertMessage("Invalid Credentials,please try again")
@@ -44,13 +52,14 @@ const Login = ({setCurrentUser}) => {
         },2000)
       }
     },[errorMessage])
+    const passwordToggleHandler =()=>{
+      setPasswordVisible(!isPasswordVisible)
+    }
   return (
     <div className=" flex items-center justify-center w-full  pt-3">
       <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10 `}>
         <div className=" mb-2 flex justify-center">
-          <span className=" inline-block w-full max-w-[100px]">
-            Logo
-          </span>
+        <div><p className=' text-2xl font-bold'><span className=' text-red-500'>F</span><span className=' text-blue-500'>E</span><span className=' text-green-500'>E</span><span className=' text-orange-500'>D</span></p></div>
         </div>
         <h2 className=" text-center text-2xl font-bold leading-tight">
           Sign in to your account
@@ -66,6 +75,7 @@ const Login = ({setCurrentUser}) => {
            <div className=" space-y-5">
             <Input
             label="Email"
+            icon={<BiEnvelope/>}
             placeholder="Enter your email"
             type="email"
             {...register("email",
@@ -78,7 +88,8 @@ const Login = ({setCurrentUser}) => {
             />
             <Input
             label="Password"
-            type="password"
+            type={isPasswordVisible?"text":"password"}
+            icon={isPasswordVisible?<AiOutlineEye onClick={passwordToggleHandler} className=' cursor-pointer' />:<AiFillEyeInvisible onClick={passwordToggleHandler} className=' cursor-pointer'/>}
             placeholder="Enter your password"
             {...register("password",{
               required:true,

@@ -1,35 +1,62 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Input from "./commonUI/Input";
 import Button from "./commonUI/Button";
 import DropDown from "./commonUI/DropDown";
-
-import fs from "fs"
 import { useUser } from "../../context/userContext";
-// import useUser from "../../context/userContext";
+import {
+  isValidPhonenumber,
+  checkPasswordLength,
+} from "../../validation/validation";
+import Alert from "../customalert/Alert";
+import { BiEnvelope,BiCommand} from "react-icons/bi"
+import {AiOutlineMan,AiFillEyeInvisible,AiOutlineEye,AiFillControl} from "react-icons/ai"
+import {BsMenuApp,BsPhone} from "react-icons/bs"
 const Signup = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const [err, setErr] = useState("");
-  const {registerUser,userData} =useUser()
-  const createUser = (data) => {
-    // fs.write("../../../public/data",data)
-    console.log(data);
-    // console.log(userData);
-    // localStorage.setItem("userInfo",JSON.stringify(data))
-    // const localData = localStorage.getItem("userInfo")
-    // console.log(localData);
-    registerUser(data)
-    console.log(userData);
+  const [isPasswordVisible,setPasswordVisible] = useState(false)
+  const {
+    registerUser,
+    userData,
+    alertMessage,
+    setAlertMessage,
+    onClose,
+    setCurrentUser,
+  } = useUser();
+  const navigate = useNavigate();
 
+  const createUser = (data) => {
+    console.log(data);
+    if (!isValidPhonenumber(data.phone)) {
+      setErr("Invalid Phone Number");
+      setTimeout(() => {
+        setErr("");
+      }, 1500);
+      return null;
+    }
+    if (!checkPasswordLength(data.password)) {
+      setErr("Password is too weak.");
+      return null;
+    }
+    registerUser(data);
+    setAlertMessage("User registered successfully !");
+    reset();
+    setCurrentUser(data);
+    navigate("/");
+    console.log(userData);
   };
+  const passwordToggleHandler =()=>{
+    setPasswordVisible(!isPasswordVisible)
+  }
   return (
     <div className=" flex justify-center items-center ">
       <div
         className={` mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}
       >
         <div className=" mb-2 flex justify-center">
-          <span className=" inline-block w-full max-w-[100px]">logo</span>
+        <div><p className=' text-2xl font-bold'><span className=' text-red-500'>F</span><span className=' text-blue-500'>E</span><span className=' text-green-500'>E</span><span className=' text-orange-500'>D</span></p></div>
         </div>
         <h2 className=" text-center text-2xl font-bold leading-tight">
           Sign up to create account
@@ -37,7 +64,7 @@ const Signup = () => {
         <p className=" mt-2 text-center text-base text-gray-500 ">
           Already hav an account?&nbsp;
           <Link
-            to={"/"}
+            to={"/login"}
             className=" font-medium text-pretty transition-all duration-200 hover:underline "
           >
             Sign in
@@ -48,6 +75,7 @@ const Signup = () => {
           <div className=" space-y-5">
             <Input
               label="Name"
+              icon={<BsMenuApp/>}
               placeholder="Enter your full name"
               {...register("name", {
                 required: true,
@@ -56,6 +84,7 @@ const Signup = () => {
             <Input
               label="Email"
               type="email"
+              icon={<BiEnvelope/>}
               placeholder="Enter your email"
               {...register("email", {
                 required: true,
@@ -69,6 +98,7 @@ const Signup = () => {
             <Input
               label="Phone"
               type="number"
+              icon={<BsPhone/>}
               placeholder="Enter your phone number"
               {...register("phone", {
                 required: true,
@@ -79,15 +109,20 @@ const Signup = () => {
             />
             <Input
               label="Password"
-              type="password"
+              type={isPasswordVisible?"text":"password"}
+            icon={isPasswordVisible?<AiOutlineEye onClick={passwordToggleHandler} className=' cursor-pointer' />:<AiFillEyeInvisible onClick={passwordToggleHandler} className=' cursor-pointer'/>}
               placeholder="Enter your password"
               {...register("password", {
                 required: true,
               })}
             />
-            <DropDown label={"Role"} {...register("role",{
-                required:true
-            })}/>
+            <DropDown
+              label={"Role"}
+              icon={<AiFillControl/>}
+              {...register("role", {
+                required: true,
+              })}
+            />
 
             <Button type="submit" className=" w-full">
               Submit
@@ -95,6 +130,7 @@ const Signup = () => {
           </div>
         </form>
       </div>
+      {alertMessage && <Alert message={alertMessage} onClose={onClose} />}
     </div>
   );
 };

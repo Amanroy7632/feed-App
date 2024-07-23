@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useUser } from '../../context/userContext';
 
-const Profile = ({currentUser}) => {
+const Profile = () => {
+    const {currentUser} =useUser()
   const user = {
     name: 'John Doe',
     bio: 'A passionate developer from California. Loves coding, hiking, and photography.',
