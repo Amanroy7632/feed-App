@@ -35,7 +35,7 @@ const Navbar = () => {
       <div className="container flex justify-between lg:px-20 py-3 max-sm:px-3 ">
         <Logo/>
         <div className=" lg:flex justify-center items-center md:hidden sm:hidden max-sm:hidden ">
-          <ul className=" flex justify-between items-center gap-4 text-xl font-semibold">
+          <ul className=" flex justify-between items-center gap-4 text-xl font-semibold select-none">
             <li>
               <Link to={"/"}>Home</Link>
             </li>
@@ -54,7 +54,7 @@ const Navbar = () => {
         </div>
 
         <div>
-          <div className=" relative flex gap-6">
+          <div className=" relative flex gap-6 select-none">
             {currentUser?.name ? (
               <p
                 onMouseOver={mouseOverHandler}
@@ -70,9 +70,9 @@ const Navbar = () => {
             {profileVisible && (
               <div
                 onMouseLeave={mouseLeaveHandler}
-                className=" absolute top-[4vh]  z-20 border border-t-0 w-full h-[30vh]  rounded-b-md flex justify-center items-center flex-col backdrop-blur-md"
+                className=" absolute top-[4vh] z-50 border border-t-0 w-full h-[30vh]  rounded-b-md flex justify-center items-center flex-col backdrop-blur-md"
               >
-                <ul className=" px-5 text-2xl ">
+                <ul className=" px-5 text-2xl select-none ">
                   <li
                     onClick={mouseLeaveHandler}
                     className=" underline-offset-1 hover:underline hover:text-blue-400 "
@@ -109,7 +109,7 @@ const Navbar = () => {
         </div>
         {toggle&&<div className=" fixed w-2/3 z-20 h-[70vh] top-[7vh] backdrop-blur-md right-0 ">
         <div className="flex justify-between flex-col items-center">
-        <ul className=" flex flex-col   gap-4 text-3xl font-semibold  pt-10 ">
+        <ul className=" flex flex-col   gap-4 text-3xl font-semibold  pt-10 select-none ">
             <li>
               <Link to={"/"} onClick={hamburgClickHandler}>Home</Link>
             </li>

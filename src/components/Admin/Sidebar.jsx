@@ -12,7 +12,7 @@ const Sidebar = ({activeUserPannel,setActiveUserPannel,activeApprovalPannel,setA
     }
 
   return (
-    <div className="w-64 h-screen bg-gray-800 text-white flex flex-col">
+    <div className="w-64 max-sm:w-full top-0 h-screen bg-gray-800 text-white flex flex-col">
       <div className="p-4 text-xl font-bold">Admin Dashboard</div>
       <nav className="flex flex-col p-4">
         <div  className="mb-2 p-2 bg-gray-700 rounded flex gap-2 items-center cursor-pointer"> <BiSolidDashboard/>Dashboard</div>

@@ -117,10 +117,10 @@ const LandingPage = () => {
   };
   return (
     <div className=" pt-[10vh]">
-      <div className=" w-[80%] flex justify-center flex-col m-auto">
-        <div className=" flex justify-center flex-col w-[80%] m-auto">
+      <div className=" lg:w-[80%] flex justify-center flex-col m-auto">
+        <div className=" flex justify-center flex-col lg:w-[80%] max-sm:w-[92%] m-auto">
           <h1 className=" text-3xl text-center">Feeds</h1>
-          <div className=" shadow-md relative mt-5">
+          <div className="  shadow-md relative mt-5 ">
             <form>
               <Input
                 label={""}
@@ -147,19 +147,19 @@ const LandingPage = () => {
               >
                 Copy
               </div>
-              <div className=" flex justify-evenly items-center p-4">
+              <div className=" flex justify-evenly max-sm:flex-col items-center p-4 gap-2">
                 <Button
                   onClick={handleSubmit(createPost)}
-                  className=" bg-green-500"
+                  className=" bg-green-500 w-full"
                 >
                   Create Post
                 </Button>
-                <Button onClick={viewMyPost} className=" bg-yellow-600">
+                <Button onClick={viewMyPost} className=" bg-yellow-600 w-full">
                   View My Post
                 </Button>
                 <Button
                   onClick={viewOtherPostsHandler}
-                  className=" bg-pink-900"
+                  className=" bg-pink-900 w-full"
                 >
                   View Other User Post
                 </Button>
@@ -177,7 +177,7 @@ const LandingPage = () => {
                     You don't have posted yet ..
                   </p>
                 ) : (
-                  <div className="grid grid-cols-4 gap-5">
+                  <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-5">
                     {currentUserPost.map((p, i) => {
                         // if (p.owner!==currentUser.email) {
                         //     return null
