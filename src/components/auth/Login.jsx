@@ -7,6 +7,7 @@ import { useUser } from '../../context/userContext'
 import Alert from '../customalert/Alert'
 import {BiEnvelope} from "react-icons/bi"
 import {AiFillEyeInvisible,AiOutlineEye} from "react-icons/ai"
+import Logo from '../logo/Logo'
 const Login = () => {
     const [errorMessage,setErrorMessage] =useState('')
     const {register,handleSubmit} = useForm()
@@ -56,10 +57,11 @@ const Login = () => {
       setPasswordVisible(!isPasswordVisible)
     }
   return (
-    <div className=" flex items-center justify-center w-full  pt-3">
+    <div className=" flex items-center justify-center w-full  pt-[12vh]">
       <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10 `}>
         <div className=" mb-2 flex justify-center">
-        <div><p className=' text-2xl font-bold'><span className=' text-red-500'>F</span><span className=' text-blue-500'>E</span><span className=' text-green-500'>E</span><span className=' text-orange-500'>D</span></p></div>
+          <Logo/>
+        {/* <div><p className=' text-2xl font-bold'><span className=' text-red-500'>F</span><span className=' text-blue-500'>E</span><span className=' text-green-500'>E</span><span className=' text-orange-500'>D</span></p></div> */}
         </div>
         <h2 className=" text-center text-2xl font-bold leading-tight">
           Sign in to your account

@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
-import { Routes, Route, Outlet } from "react-router-dom";
+import { Routes, Route, Outlet, useNavigate } from "react-router-dom";
 import Users from "./Users";
 import { useUser } from "../../context/userContext";
 import Approval from "./Approval";
 const AdminDashboard = () => {
-    const {userData,posts} = useUser()
+    const {userData,posts,currentUser} = useUser()
     const [displayNumber,setDisplayNumber] =useState(0)
     const [activeUserPannel,setActiveUserPannel] =useState(false)
     const [activeApprovalPannel,setActiveApprovalPannel] =useState(false)
+    const navigate=useNavigate()
     const approvedPost = ()=>{
         const count = posts.filter(post => post.isApproved).length
         return count
@@ -22,8 +23,13 @@ const AdminDashboard = () => {
             setDisplayNumber(displayNumber+1)
         }
     }
+    useEffect(()=>{
+       if(!currentUser || currentUser?.role!=="2"){
+        navigate("/")
+       }
+    },[currentUser])
   return (
-    <div className=" flex">
+    <div className=" pt-[10vh] flex h-screen overflow-hidden">
       <Sidebar setActiveUserPannel={setActiveUserPannel} activeUserPannel={activeUserPannel} setActiveApprovalPannel={setActiveApprovalPannel} activeApprovalPannel={activeApprovalPannel}  />
       <div className="flex-grow">
         <div className="p-6 border">

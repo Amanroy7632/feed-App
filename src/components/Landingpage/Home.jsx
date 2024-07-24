@@ -51,13 +51,13 @@ const Home = () => {
         console.log(updated);
     }
   return (
-    <div className=''>
+    <div className=' pt-[10vh]'>
         {alertMessage &&<Alert message={alertMessage} onClose={onClose}  />}
        <div className='container w-[80%] m-auto flex flex-col justify-center items-center'>
         <div className=' p-4'>
             <h1 className=' text-3xl font-semibold'>All Feeds are Here</h1>
         </div>
-         {posts.length>0? <div className=' grid grid-cols-4 gap-5'>
+         {posts.length>0? <div className=' grid md:grid-cols-2 lg:grid-cols-4 gap-5'>
              {posts?.map((p)=>{
                 return <PostCard key={p.id} cardInfo={p} currentUser={currentUser} deletePost={deletePost} updatePost={updatePost}/>
              })}

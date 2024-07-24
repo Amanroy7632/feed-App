@@ -13,6 +13,7 @@ import Alert from "../customalert/Alert";
 import { BiEnvelope,BiCommand} from "react-icons/bi"
 import {AiOutlineMan,AiFillEyeInvisible,AiOutlineEye,AiFillControl} from "react-icons/ai"
 import {BsMenuApp,BsPhone} from "react-icons/bs"
+import Logo from "../logo/Logo";
 const Signup = () => {
   const { register, handleSubmit, reset } = useForm();
   const [err, setErr] = useState("");
@@ -51,12 +52,12 @@ const Signup = () => {
     setPasswordVisible(!isPasswordVisible)
   }
   return (
-    <div className=" flex justify-center items-center ">
+    <div className=" flex justify-center items-center pt-[10vh] ">
       <div
         className={` mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}
       >
         <div className=" mb-2 flex justify-center">
-        <div><p className=' text-2xl font-bold'><span className=' text-red-500'>F</span><span className=' text-blue-500'>E</span><span className=' text-green-500'>E</span><span className=' text-orange-500'>D</span></p></div>
+       <Logo/>
         </div>
         <h2 className=" text-center text-2xl font-bold leading-tight">
           Sign up to create account

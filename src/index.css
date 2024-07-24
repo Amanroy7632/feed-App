@@ -5,3 +5,8 @@
   background: white;
   width: 0;
 }
+*{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}

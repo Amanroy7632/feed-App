@@ -8,6 +8,7 @@ import Home from './components/Landingpage/Home'
 import Profile from './components/profile/Profile'
 import AdminDashboard from './components/Admin/AdminDashboard'
 import Users from './components/Admin/Users'
+import AboutCompany from './components/aboutcompany/AboutCompany'
 function App() {
   const [currentUser,setCurrentUser]=useState({})
   return (
@@ -22,7 +23,7 @@ function App() {
          <Route path='/feed' element={<LandingPage/>} />
          <Route path='/profile' element={<Profile currentUser={currentUser}/>}/>
          <Route path='/admin-dashboard' element={<AdminDashboard/>}/>
-           {/* <Route path='admin-dashboard/abc' element={<Users userData={[]}/>}/> */}
+           <Route path='/about' element={<AboutCompany/>}/>
           
      </Routes>
      </>

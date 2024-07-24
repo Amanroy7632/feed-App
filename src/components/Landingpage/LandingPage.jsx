@@ -50,7 +50,7 @@ const LandingPage = () => {
     }
     if (!currentUser.name) {
       setAlertMessage("please login first ...");
-      alert("Please login first..");
+    //   alert("Please login first..");
       return;
     }
     const postInfo = {
@@ -116,7 +116,7 @@ const LandingPage = () => {
     }, 2000);
   };
   return (
-    <div className="">
+    <div className=" pt-[10vh]">
       <div className=" w-[80%] flex justify-center flex-col m-auto">
         <div className=" flex justify-center flex-col w-[80%] m-auto">
           <h1 className=" text-3xl text-center">Feeds</h1>
