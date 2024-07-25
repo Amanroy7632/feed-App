@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useUser } from "../../context/userContext";
 import Button from "../auth/commonUI/Button";
 import Alert from "../customalert/Alert";
+import { saveToLocalStorage } from "../../utility";
 const Approval = () => {
   const {
     alertMessage,
@@ -33,7 +34,7 @@ const Approval = () => {
     });
     const newPosts = [...updatedPost];
     setPost(newPosts);
-    localStorage.setItem("posts", JSON.stringify(newPosts));
+    saveToLocalStorage(newPosts,"posts")
     console.log(newPosts);
     setPostId(postId);
     setAlertMessage("Post has been approved successfully.");
@@ -46,7 +47,7 @@ const Approval = () => {
     const updatedPost = posts.filter((post) => post.id !== postId);
     const newPosts = [...updatedPost];
     setPost(newPosts);
-    localStorage.setItem("posts", JSON.stringify(newPosts));
+    saveToLocalStorage(newPosts,"posts")
     console.log(newPosts);
     setPostId(postId);
     setAlertMessage("Post has been removed successfully.");

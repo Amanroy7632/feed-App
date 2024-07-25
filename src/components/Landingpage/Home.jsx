@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react'
 import PostCard from '../post/PostCard'
 import Alert from '../customalert/Alert'
 import { useUser } from '../../context/userContext';
+import { getDataFromLocalStorage, saveToLocalStorage } from '../../utility';
 
 const Home = () => {
     const [alertMessage,setAlertMessage] = useState('');
     // const [post,setPost]=useState([])
-    const {currentUser,posts,setPost} = useUser()
+    const {currentUser,posts,setPost,updatePost,deletePost} = useUser()
     useEffect(()=>{
-        const localData = JSON.parse(localStorage.getItem("posts"))
+        const localData = getDataFromLocalStorage("posts")
         if (localData) {
             setPost(localData)
         }
@@ -16,41 +17,41 @@ const Home = () => {
     const onClose =()=>{
        setAlertMessage('')
     }
-    const deletePost = (postId)=>{
-        if (!currentUser.name) {
-            setAlertMessage("Please login first");
-            return;
-          }
-          // console.log(id, currentUser.email, currentUser.email);
-          const newUpdatePost = posts.filter((post) => {
-            return post.id !== postId;
-          });
-          setPost(newUpdatePost);
-          localStorage.setItem("posts", JSON.stringify(newUpdatePost));
-          setAlertMessage("Post deleted successfully");
-    }
-    const updatePost = (postId,data)=>{
-        if (!data) {
-            alert("Invalid post title")
-            return null
-        }
-        const currentPost = posts.filter(post=>post.id ===postId)
-        if (!currentPost) {
-            alert("Post not found")
-            return null
-        }
-        const updated = posts.map((post)=>{
-            if (post.id===postId) {
-                return {...post,post:{post:data.newPost}}
-            }
-            return post
-        })
-        const newArray = [...updated]
-        setPost(newArray)
-        localStorage.setItem("posts",JSON.stringify(updated))
-        setAlertMessage("Post updated successfully");
-        // console.log(updated);
-    }
+    // const deletePost = (postId)=>{
+    //     if (!currentUser.name) {
+    //         setAlertMessage("Please login first");
+    //         return;
+    //       }
+    //       // console.log(id, currentUser.email, currentUser.email);
+    //       const newUpdatePost = posts.filter((post) => {
+    //         return post.id !== postId;
+    //       });
+    //       setPost(newUpdatePost);
+    //       saveToLocalStorage(newUpdatePost,"posts")
+    //       setAlertMessage("Post deleted successfully");
+    // }
+    // const updatePost = (postId,data)=>{
+    //     if (!data) {
+    //         alert("Invalid post title")
+    //         return null
+    //     }
+    //     const currentPost = posts.filter(post=>post.id ===postId)
+    //     if (!currentPost) {
+    //         alert("Post not found")
+    //         return null
+    //     }
+    //     const updated = posts.map((post)=>{
+    //         if (post.id===postId) {
+    //             return {...post,post:{post:data.newPost}}
+    //         }
+    //         return post
+    //     })
+    //     const newArray = [...updated]
+    //     setPost(newArray)
+    //     saveToLocalStorage(updated,"posts")
+    //     setAlertMessage("Post updated successfully");
+    //     // console.log(updated);
+    // }
   return (
     <div className=' pt-[10vh]'>
         {alertMessage &&<Alert message={alertMessage} onClose={onClose}  />}

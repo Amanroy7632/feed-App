@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import { useUser } from '../../context/userContext';
 
 const Profile = () => {

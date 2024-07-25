@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
-import { Routes, Route, Outlet, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import Users from "./Users";
 import { useUser } from "../../context/userContext";
 import Approval from "./Approval";

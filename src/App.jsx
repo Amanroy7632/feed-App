@@ -10,10 +10,7 @@ import AdminDashboard from './components/Admin/AdminDashboard'
 import Users from './components/Admin/Users'
 import AboutCompany from './components/aboutcompany/AboutCompany'
 function App() {
-  const [currentUser,setCurrentUser]=useState({})
   return (
-    
-  
      <>
      <Navbar />
      <Routes>
@@ -21,7 +18,7 @@ function App() {
          <Route  path='/login' element={<Login/>}/>
          <Route  path='/register' element={<Signup/>}/>
          <Route path='/feed' element={<LandingPage/>} />
-         <Route path='/profile' element={<Profile currentUser={currentUser}/>}/>
+         <Route path='/profile' element={<Profile/>}/>
          <Route path='/admin-dashboard' element={<AdminDashboard/>}/>
            <Route path='/about' element={<AboutCompany/>}/>
           

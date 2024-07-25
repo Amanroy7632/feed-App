@@ -1,13 +1,12 @@
 import { useForm } from "react-hook-form";
 import Input from "../auth/commonUI/Input";
-import {  useRef, useState } from "react";
+import {  useRef,useEffect, useState } from "react";
 import Button from "../auth/commonUI/Button";
-import Home from "./Home";
 import PostCard from "../post/PostCard";
 import { useUser } from "../../context/userContext";
 import Alert from "../customalert/Alert";
+import {generateCurrentDate,generateId} from "../../utility"
 const LandingPage = () => {
-  //   const [posts, setPost] = useState([]);
   const [currentUserPost, setCurrentUserPost] = useState([]);
   const [currentUserPostVisible, setCurrentUserPostVisible] = useState(false);
   const { handleSubmit, register, reset } = useForm();
@@ -19,29 +18,10 @@ const LandingPage = () => {
     currentUser,
     posts,
     setPost,
+    deletePost,
+    updatePost
   } = useUser();
   const ref = useRef("");
-  function generateCurrentDate() {
-    const currentDate = new Date()
-    const day = String(currentDate.getDate()).padStart(2, '0')
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0')
-    const year = currentDate.getFullYear()
-    return `${day}/${month}/${year}`;
-  }
-  const generateId = (length) => {
-    let code = "";
-    const characters = "abcdefghijklmnopqrstuvwxyz";
-    const integers = "0123456789";
-    if (length < 5) {
-      length = 6;
-    }
-    for (let index = 0; index < length; index++) {
-      code +=
-        characters.charAt(Math.floor(Math.random() * characters.length)) +
-        integers.charAt(Math.floor(Math.random() * integers.length));
-    }
-    return code;
-  };
   const createPost = (data) => {
     if (!data.post) {
       
@@ -73,47 +53,13 @@ const LandingPage = () => {
       );
 
   };
-  const deletePost = (id) => {
-    if (!currentUser.name) {
-      setAlertMessage("Please login first");
-      return;
-    }
-    // console.log(id, currentUser.email, currentUser.email);
-    const newUpdatePost = posts.filter((post) => {
-      return post.id !== id;
-    });
-    setPost(newUpdatePost);
-    localStorage.setItem("posts", JSON.stringify(newUpdatePost));
-    setAlertMessage("Post deleted successfully");
-  };
-  const updatePost = (postId,data)=>{
-    if (!data) {
-        alert("Invalid post title")
-        return null
-    }
-    const currentPost = posts.filter(post=>post.id ===postId)
-    if (!currentPost) {
-        alert("Post not found")
-        return null
-    }
-    const updated = posts.map((post)=>{
-        if (post.id===postId) {
-            return {...post,post:{post:data.newPost}}
-        }
-        return post
-    })
-    const newArray = [...updated]
-    setPost(newArray)
-    localStorage.setItem("posts",JSON.stringify(updated))
-    console.log(updated);
-}
   const viewMyPost = (e) => {
     e.preventDefault();
     setCurrentUserPost(
       posts.filter((post) => post.owner === currentUser.email)
     );
     setCurrentUserPostVisible(!currentUserPostVisible);
-    console.log("Displaying all posts");
+    // console.log("Displaying all posts");
   };
   const viewOtherPostsHandler = (e) => {
     e.preventDefault();
@@ -122,15 +68,9 @@ const LandingPage = () => {
     );
     setCurrentUserPostVisible(!currentUserPostVisible);
   };
-//   useEffect(() => {
-//     const localStoragePosts = JSON.parse(localStorage.getItem("posts"));
-//     if (localStoragePosts) {
-//       setPost(localStoragePosts);
-//     }
-//   }, [posts.length]);
   const handleCopyClick = async (data) => {
     setcpyVisible(true);
-    console.log(data);
+    // console.log(data);
     await navigator.clipboard.writeText(data.post);
     setTimeout(() => {
       setcpyVisible(false);
@@ -200,9 +140,6 @@ const LandingPage = () => {
                 ) : (
                   <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-5">
                     {currentUserPost.map((p, i) => {
-                        // if (p.owner!==currentUser.email) {
-                        //     return null
-                        // }
                       return (
                         <PostCard
                           key={i}
