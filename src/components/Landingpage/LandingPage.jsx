@@ -86,6 +86,27 @@ const LandingPage = () => {
     localStorage.setItem("posts", JSON.stringify(newUpdatePost));
     setAlertMessage("Post deleted successfully");
   };
+  const updatePost = (postId,data)=>{
+    if (!data) {
+        alert("Invalid post title")
+        return null
+    }
+    const currentPost = posts.filter(post=>post.id ===postId)
+    if (!currentPost) {
+        alert("Post not found")
+        return null
+    }
+    const updated = posts.map((post)=>{
+        if (post.id===postId) {
+            return {...post,post:{post:data.newPost}}
+        }
+        return post
+    })
+    const newArray = [...updated]
+    setPost(newArray)
+    localStorage.setItem("posts",JSON.stringify(updated))
+    console.log(updated);
+}
   const viewMyPost = (e) => {
     e.preventDefault();
     setCurrentUserPost(
@@ -188,6 +209,7 @@ const LandingPage = () => {
                           cardInfo={p}
                           currentUser={currentUser}
                           deletePost={deletePost}
+                          updatePost={updatePost}
                           id={i}
                         />
                       );

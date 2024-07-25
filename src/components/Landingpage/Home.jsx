@@ -48,7 +48,8 @@ const Home = () => {
         const newArray = [...updated]
         setPost(newArray)
         localStorage.setItem("posts",JSON.stringify(updated))
-        console.log(updated);
+        setAlertMessage("Post updated successfully");
+        // console.log(updated);
     }
   return (
     <div className=' pt-[10vh]'>

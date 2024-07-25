@@ -50,7 +50,7 @@ const AdminDashboard = () => {
             </div>
             <div className="bg-white p-4 rounded shadow max-sm:p-1">
               <h2 className="text-xl font-semibold mb-2">✔️Approved Posts</h2>
-              <p>Number of approved posts: {approvedPost()}</p>
+              <p>Number of posts: {approvedPost()}</p>
             </div>
           </div>
         </div>

@@ -3,6 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../context/userContext";
 import Alert from "../customalert/Alert";
 import Logo from "../logo/Logo";
+import {BiHome,BiSolidDashboard} from "react-icons/bi"
+import {BsFeather2} from "react-icons/bs"
+import {CiBarcode} from "react-icons/ci"
 
 const Navbar = () => {
   const [profileVisible, setProfileVisible] = useState(false);
@@ -31,7 +34,7 @@ const Navbar = () => {
     setToggle(!toggle)
   }
   return (
-    <nav className=" fixed flex justify-center items-center h-[10%] w-full border-b-2 shadow-md bg-gray-200">
+    <nav className=" fixed flex justify-center items-center h-[10%] w-full border-b-2 shadow-md bg-gray-200 z-10">
       <div className="container flex justify-between lg:px-20 py-3 max-sm:px-3 ">
         <Logo/>
         <div className=" lg:flex justify-center items-center md:hidden sm:hidden max-sm:hidden ">
@@ -111,17 +114,17 @@ const Navbar = () => {
         <div className="flex justify-between flex-col items-center">
         <ul className=" flex flex-col   gap-4 text-3xl font-semibold  pt-10 select-none ">
             <li>
-              <Link to={"/"} onClick={hamburgClickHandler}>Home</Link>
+              <Link to={"/"} onClick={hamburgClickHandler} className="flex items-center gap-1"><BiHome className=" text-orange-400"/>Home</Link>
             </li>
             <li>
-              <Link to={"/feed"} onClick={hamburgClickHandler}>Feeds</Link>
+              <Link to={"/feed"} onClick={hamburgClickHandler}className="flex items-center gap-1"><BsFeather2 className=" text-green-600"/>Feeds</Link>
             </li>
             <li>
-              <Link to={"/about"} onClick={hamburgClickHandler}>About</Link>
+              <Link to={"/about"} onClick={hamburgClickHandler}className="flex items-center gap-1"><CiBarcode className=" text-[#0ef]"/>About</Link>
             </li>
             {currentUser.email && currentUser.role === "2" && (
               <li>
-                <Link to={"/admin-dashboard"} onClick={hamburgClickHandler}>Dashboard</Link>
+                <Link to={"/admin-dashboard"} onClick={hamburgClickHandler}className="flex items-center gap-1"><BiSolidDashboard className=" text-yellow-700"/>Dashboard</Link>
               </li>
             )}
           </ul>
