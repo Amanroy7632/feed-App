@@ -32,11 +32,10 @@ export const UserProvider = ({ children }) => {
     const updatedUserData = [...localStorageData, data];
     setUserData(updatedUserData);
     // localStorage.setItem("userInfo",JSON.stringify(updatedUserData))
-    const isSaved = saveToLocalStorage(updatedUserData, "userInfo");
-    if (!isSaved) {
-      alert("Something went wrong while saving data to the localstorage");
-    }
-    const localStora = JSON.parse(localStorage.getItem("userInfo"));
+    saveToLocalStorage(updatedUserData, "userInfo");
+    
+    // const localStora = JSON.parse(localStorage.getItem("userInfo"));
+    const localStora=getDataFromLocalStorage("userInfo")
     console.log(localStora);
   };
   const getUserData = (data) => {
@@ -57,7 +56,8 @@ export const UserProvider = ({ children }) => {
       return post.id !== id;
     });
     setPost(newUpdatePost);
-    localStorage.setItem("posts", JSON.stringify(newUpdatePost));
+    // localStorage.setItem("posts", JSON.stringify(newUpdatePost));
+    saveToLocalStorage(newUpdatePost,"posts")
     // setAlertMessage("Post deleted successfully");
   };
   const updatePost = (postId, data) => {
